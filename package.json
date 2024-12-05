@@ -1,6 +1,6 @@
 {
     "name": "react-fishbone-chart2",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "reactjs fishbone chart component ",
     "license": "MIT",
     "main": "./dist/cjs/index.js",
@@ -41,7 +41,7 @@
         "@testing-library/react": "^16.0.1",
         "@types/fs-extra": "^11.0.4",
         "@types/node": "^22.10.1",
-        "@types/react": "^18.3.12",
+        "@types/react": "^18.3.13",
         "@types/react-dom": "^18.3.1",
         "@typescript-eslint/eslint-plugin": "^8.17.0",
         "@typescript-eslint/parser": "^8.17.0",
@@ -76,9 +76,12 @@
     },
     "dependencies": {
         "@babel/core": "^7.26.0",
+        "@rollup/plugin-replace": "^6.0.1",
         "babel-loader": "^9.2.1",
         "css-loader": "^7.1.2",
+        "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-css-only": "^4.5.2",
+        "rollup-plugin-node-resolve": "^5.2.0",
         "run-script-os": "^1.1.6",
         "style-loader": "^4.0.0"
     },

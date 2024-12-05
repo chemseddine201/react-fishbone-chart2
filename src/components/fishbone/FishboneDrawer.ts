@@ -5,8 +5,9 @@ export class FishboneDrawer {
     private lineSelector: string;
     private containerSelector: string;
     private borderSelector: string;
-    private titleSelector: string;
+    private effectTitleIconContainerSelector: string;
     private topCausesContainerSelector: string;
+    private fishTailSelectorIcon: string;
 
     constructor() {
         this.topSelector = '.causeAndLine.top-items';
@@ -15,8 +16,9 @@ export class FishboneDrawer {
         this.lineSelector = '.diagonalLine';
         this.containerSelector = '.cuseContainer';
         this.borderSelector = '.absoluteBorder';
-        this.titleSelector = '.effectValue';
+        this.effectTitleIconContainerSelector = '.effectValue';
         this.topCausesContainerSelector = '.top-group';
+        this.fishTailSelectorIcon = '.fish-tail-svg';
     }
 
     /**
@@ -163,22 +165,25 @@ export class FishboneDrawer {
      */
     fixTitlePosition(): void {
         const topCausesContainer = document.querySelector<HTMLElement>(this.topCausesContainerSelector);
-        const title = document.querySelector<HTMLElement>(this.titleSelector);
-        
-        if (!topCausesContainer) {
-            console.warn('Top causes container not found');
+        const titleIconContainer = document.querySelector<HTMLElement>(this.effectTitleIconContainerSelector);
+        const fishTailIcon = document.querySelector<HTMLElement>(this.fishTailSelectorIcon);
+        if(!topCausesContainer){
             return;
         }
+        const topCausesBoundaries = topCausesContainer.getBoundingClientRect();
 
-        if (!title) {
-            console.warn('Title element not found');
-            return;
+        if (titleIconContainer) {
+
+            const titleIconContainerBoundaries = titleIconContainer.getBoundingClientRect();
+            const yPosition = topCausesBoundaries.height - (titleIconContainerBoundaries.height / 2);
+            titleIconContainer.style.top = `${yPosition}px`;
         }
 
-        const boundaries = topCausesContainer.getBoundingClientRect();
-        const titleBoundaries = title.getBoundingClientRect();
-        
-        const yPosition = boundaries.height - (titleBoundaries.height / 2);
-        title.style.top = `${yPosition}px`;
+
+        if (fishTailIcon) {
+            const fishTailIconBoundries = fishTailIcon.getBoundingClientRect();
+            const yPosition = topCausesBoundaries.height - (fishTailIconBoundries.height / 2);
+            fishTailIcon.style.top = `${3+yPosition}px`;
+        }
     }
 }

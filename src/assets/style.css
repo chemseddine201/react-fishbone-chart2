@@ -1,4 +1,4 @@
-.fishboneChart{
+.fishboneChart {
     position: relative;
     display: flex;
     justify-items: center;
@@ -12,7 +12,7 @@
 
 .bottom {
     border-top: 2px solid;
-    border-radius: 0 0 5% 5%; 
+    border-radius: 0 0 5% 5%;
 }
 
 .left {
@@ -36,15 +36,16 @@
 }
 
 
-.cause {    
+.cause {
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     text-align: center;
     width: 60%;
     font-size: 0.95em;
-    font-weight: 400;        
+    font-weight: 400;
     padding: 5px 0px;
+    color: #4f4f4f;
 }
 
 .causeAndLine {
@@ -64,7 +65,6 @@
     padding: 18px 0px;
     text-align: right;
     height: 100%;
-    color: #4f4f4f;
     font-size: 0.85em;
     font-weight: 400;
     position: relative;
@@ -85,10 +85,10 @@
     align-items: center;
     color: #4f4f4f;
     font-size: 0.95em;
-    font-weight: 400; 
-    margin-bottom: 6px;   
-    cursor: default;     
-} 
+    font-weight: 400;
+    margin-bottom: 6px;
+    cursor: default;
+}
 
 .bold {
     font-weight: bold;
@@ -96,11 +96,11 @@
 
 
 
-.blue_{
+.blue_ {
     background: rgb(0, 192, 239, 0.1);
 }
 
-.black_{
+.black_ {
     background: rgb(17, 17, 17, 0.1);
 }
 
@@ -109,11 +109,11 @@
 }
 
 .gray_ {
-    background: rgb(104,115,140, 0.1);
+    background: rgb(104, 115, 140, 0.1);
 }
 
 .green_ {
-    background:rgb(48, 187, 187, 0.1);
+    background: rgb(48, 187, 187, 0.1);
 }
 
 .pink_ {
@@ -125,14 +125,14 @@
 }
 
 .orange_ {
-    background:rgb(255, 119, 1, 0.1);
+    background: rgb(255, 119, 1, 0.1);
 }
 
-.blue_dark{
+.blue_dark {
     background: rgb(0, 192, 239, 0.4);
 }
 
-.black_dark{
+.black_dark {
     background: rgb(17, 17, 17, 0.4);
 }
 
@@ -141,11 +141,11 @@
 }
 
 .gray_dark {
-    background: rgb(104,115,140, 0.4);
+    background: rgb(104, 115, 140, 0.4);
 }
 
 .green_dark {
-    background:rgb(48, 187, 187, 0.4);
+    background: rgb(48, 187, 187, 0.4);
 }
 
 .pink_dark {
@@ -157,14 +157,14 @@
 }
 
 .orange_dark {
-    background:rgb(255, 119, 1, 0.4);
+    background: rgb(255, 119, 1, 0.4);
 }
 
-.blueBorder{
+.blueBorder {
     border-color: rgb(0, 192, 239) !important;
 }
 
-.blackBorder{
+.blackBorder {
     border-color: rgb(17, 17, 17) !important;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .grayBorder {
-    border-color: rgb(104,115,140) !important;
+    border-color: rgb(104, 115, 140) !important;
 }
 
 
@@ -193,40 +193,27 @@
     border-color: rgb(255, 119, 1) !important;
 }
 
-.labelSquare{
+.labelSquare {
     flex: 1;
     width: 42px;
-    height: 14px;    
+    height: 14px;
     margin: 0px 4px 0px 4px;
 }
 
-.labelLineThrough{
+.labelLineThrough {
     text-decoration: line-through;
     font-size: 0.95em;
     font-weight: 400;
     color: #4f4f4f;
 }
 
-.label_{
+.label_ {
     font-size: 0.95em;
-    font-weight: 400;    
+    font-weight: 400;
     color: #4f4f4f;
 }
 
-.effect {    
-    /* display: flex;
-    justify-content: center;
-    align-items: center; */
-}
-
-#effetTitleContainer {
-   /*  position: relative;
-    width: 100%; */
-}
-
-.effectValue {    
-    /*flex: 1;
-    display: flex;*/
+.effectValue {
     justify-content: center;
     align-items: center;
     font-size: 0.95em;
@@ -236,16 +223,49 @@
     padding: 5px 10px 5px 10px;
     position: relative;
     border-radius: 5px;
-    background: #f9f9f9;
+    /* background: #f9f9f9; */
     min-width: 200px;
     max-width: 240px;
-    border: 2px solid #00c0ef;
+}
 
+.effectValue.bordered {
+    border: 3px solid;
+}
+
+.svg-container > svg{
+    transform: rotate(90deg) scaleX(-1);
+    position: relative;
+    left: -45px;
+    aspect-ratio: 1;
+}
+
+.absolute-tile {
+    position: absolute;
+    left: 100px;
+    bottom: 130px;
+}
+
+.title {
+    font-size: 0.9em;
+    font-weight: 700;
+    text-align: left;
+    min-width: 220px;
+}
+
+.fish-tail {
+    display: flex;
+    width: 150px;
+}
+
+.fish-tail-svg {
+    position: absolute;
+    transform: scaleX(-1);
+    left: 50px;
 }
 
 .diagonalLine {
     flex: 1;
-    height:100%;
+    height: 100%;
     z-index: 999;
 }
 
@@ -259,67 +279,67 @@
 }
 
 .blackTopBottom {
-    background: linear-gradient(to top right, transparent calc(50% - 2px), rgb(17, 17, 17), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to top right, transparent calc(50% - 2px), #111111, #ffffff calc(50% + 1.5px));
 }
 
 .blackBottomTop {
-    background: linear-gradient(to bottom right, transparent calc(50% - 2px), rgb(17, 17, 17), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to bottom right, transparent calc(50% - 2px), #111111, #ffffff calc(50% + 1.5px));
 }
 
 .blue_twoTopBottom {
-    background: linear-gradient(to top right, transparent calc(50% - 2px), rgb(11, 120, 206), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to top right, transparent calc(50% - 2px), #0b78ce, #ffffff calc(50% + 1.5px));
 }
 
 .blue_twoBottomTop {
-    background: linear-gradient(to bottom right, transparent calc(50% - 2px), rgb(11, 120, 206), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to bottom right, transparent calc(50% - 2px), #0b78ce, #ffffff calc(50% + 1.5px));
 }
 
 .grayTopBottom {
-    background: linear-gradient(to top right, transparent calc(50% - 2px), rgb(104,115,140), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to top right, transparent calc(50% - 2px), #68738c, #ffffff calc(50% + 1.5px));
 }
 
 .grayBottomTop {
-    background: linear-gradient(to bottom right, transparent calc(50% - 2px), rgb(104,115,140), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to bottom right, transparent calc(50% - 2px), #68738c, #ffffff calc(50% + 1.5px));
 }
 
 .greenTopBottom {
-    background: linear-gradient(to top right, transparent calc(50% - 2px), rgb(48, 187, 187), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to top right, transparent calc(50% - 2px), #30bbbb, #ffffff calc(50% + 1.5px));
 }
 
 .greenBottomTop {
-    background: linear-gradient(to bottom right, transparent calc(50% - 2px), rgb(48, 187, 187), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to bottom right, transparent calc(50% - 2px), #30bbbb, #ffffff calc(50% + 1.5px));
 }
 
 .pinkTopBottom {
-    background: linear-gradient(to top right, transparent calc(50% - 2px), rgb(216, 27, 96), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to top right, transparent calc(50% - 2px), #d81b60, #ffffff calc(50% + 1.5px));
 }
 
 .pinkBottomTop {
-    background: linear-gradient(to bottom right, transparent calc(50% - 2px), rgb(216, 27, 96), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to bottom right, transparent calc(50% - 2px), #d81b60, #ffffff calc(50% + 1.5px));
 }
 
 .purpleTopBottom {
-    background: linear-gradient(to top right, transparent calc(50% - 2px), rgb(85, 82, 153), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to top right, transparent calc(50% - 2px), #555299, #ffffff calc(50% + 1.5px));
 }
 
 .purpleBottomTop {
-    background: linear-gradient(to bottom right, transparent calc(50% - 2px), rgb(85, 82, 153), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to bottom right, transparent calc(50% - 2px), #555299, #ffffff calc(50% + 1.5px));
 }
 
 .orangeTopBottom {
-    background: linear-gradient(to top right, transparent calc(50% - 2px), rgb(255, 119, 1), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to top right, transparent calc(50% - 2px), #ff7701, #ffffff calc(50% + 1.5px));
 }
 
 .orangeBottomTop {
-    background: linear-gradient(to bottom right, transparent calc(50% - 2px), rgb(255, 119, 1), transparent calc(50% + 1.5px) );
+    background: linear-gradient(to bottom right, transparent calc(50% - 2px), #ff7701, #ffffff calc(50% + 1.5px));
 }
 
 .lineEffect {
-    width: 100%;    
+    width: 100%;
     border-bottom: 2px solid;
 }
 
-.causeContent{
+.causeContent {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -347,7 +367,7 @@
     z-index: 0;
     margin: 10px;
 }
- 
+
 .absoluteBorder {
     position: relative;
     height: 0px;
@@ -358,7 +378,7 @@
 .thinBorder {
     border-bottom: 5px solid;
 }
-  
+
 .fishbon-chart-overlay {
     position: absolute;
     top: 0;
@@ -378,11 +398,26 @@
     aspect-ratio: 1;
     border-radius: 50%;
     animation: l5 1s infinite linear alternate;
-  }
+}
 
-  @keyframes l5 {
-      0%  {box-shadow: 20px 0 #00c0ef, -20px 0 #0002;background: #00c0ef}
-      33% {box-shadow: 20px 0 #00c0ef, -20px 0 #0002;background: #0002}
-      66% {box-shadow: 20px 0 #0002,-20px 0 #00c0ef; background: #0002}
-      100%{box-shadow: 20px 0 #0002,-20px 0 #00c0ef; background: #00c0ef }
-  }
+@keyframes l5 {
+    0% {
+        box-shadow: 20px 0 #00c0ef, -20px 0 #0002;
+        background: #00c0ef
+    }
+
+    33% {
+        box-shadow: 20px 0 #00c0ef, -20px 0 #0002;
+        background: #0002
+    }
+
+    66% {
+        box-shadow: 20px 0 #0002, -20px 0 #00c0ef;
+        background: #0002
+    }
+
+    100% {
+        box-shadow: 20px 0 #0002, -20px 0 #00c0ef;
+        background: #00c0ef
+    }
+}
