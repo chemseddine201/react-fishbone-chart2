@@ -129,7 +129,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         {Array.isArray(subCauses)
           ? subCauses.map((subCause, index) => (
               <div className='cuseContainer' key={`root_causes_${subCause.name}_${index}`}>
-                <span className={`cause top gray_ ${color}Border lineEffect bold`}>{subCause.name}</span>
+                <span className={`cause top ${color}Border lineEffect bold`}>{subCause.name}</span>
                 <div className={`${color}Border absoluteBorder`} />
                 <div className='subcauses-list-container'>
                   <ul className='subcauses-list'>
