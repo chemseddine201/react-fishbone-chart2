@@ -11,7 +11,6 @@ function copyNonTSFiles(srcDir, destDir) {
       filter: (src) => {
         // Get the file extension
         const ext = path.extname(src);
-        console.log(src)
         
         // Exclude TypeScript and JavaScript source files
         const excludedExtensions = ['.ts', '.tsx', '.js', '.jsx'];
@@ -42,3 +41,4 @@ function copyNonTSFiles(srcDir, destDir) {
 
 // Adjust these paths as needed
 copyNonTSFiles('src', 'dist/esm');
+copyNonTSFiles('src', 'dist/cjs');
