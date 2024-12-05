@@ -3,7 +3,15 @@ import Grid from './components/layout/Grid'
 import { FishboneDrawer } from './components/fishbone/FishboneDrawer'
 import './assets/style.css'
 
+//supported colors 'blue', 'pink', 'gray', 'green', 'blue_two', 'orange', 'black', 'purple'
 // Interface definitions
+
+type ColorName = 'blue' | 'pink' | 'gray' | 'green' | 'blue_two' | 'orange' | 'black' | 'purple'
+
+interface ColorMap {
+  [key: string]: string
+}
+
 interface Cause {
   name: string
   children?: Cause[]
@@ -19,15 +27,16 @@ interface FishboneChartProps {
   data: FishboneChartData | null
   loaderTime: number
   hasLoader: boolean
-  colorIndex: number
-  hasIcon: boolean
+  color: string
+  showSkeleton: boolean
 }
 
 interface FishboneChartState {
   data: FishboneChartData | null
-  index: number
+  color: string
   isLoading: boolean
-  hasIcon: boolean
+  showSkeleton: boolean
+  hasLoader: boolean
 }
 
 class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
@@ -36,20 +45,28 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     cols: '12',
     hasLoader: true,
     loaderTime: 500,
-    colorIndex: 6,
-    hasIcon: true,
+    color: 'blue',
+    showSkeleton: true,
   }
 
   // Initial state
   state: FishboneChartState = {
     data: null,
-    index: !isNaN(this.props.colorIndex) ? this.props.colorIndex : 6,
+    color: 'blue',
     isLoading: true,
-    hasIcon: this.props.hasIcon,
+    showSkeleton: true,
+    hasLoader: true,
   }
 
   componentWillMount() {
-    this.setState({ data: this.props.data, isLoading: true })
+    const { data, color, showSkeleton, hasLoader } = this.props
+    this.setState({
+      data,
+      color: color,
+      showSkeleton: showSkeleton,
+      hasLoader: hasLoader,
+      isLoading: true,
+    })
   }
 
   // Lifecycle method to update state when props change
@@ -62,7 +79,13 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
   // Lifecycle method to initialize fishbone and add resize listener
   componentDidMount() {
-    this.setState({ data: this.props.data })
+     const { data, color, showSkeleton, hasLoader } = this.props
+      this.setState({
+        data,
+        color: color,
+        showSkeleton: showSkeleton,
+        hasLoader: hasLoader,
+      }) 
     this.initFishbone()
     window.addEventListener('resize', this.handleResize)
   }
@@ -90,15 +113,21 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     this.initFishbone()
   }
 
-  // Color selection method
-  getColor = (index: number): string => {
-    const colors = ['blue', 'pink', 'gray', 'green', 'blue_two', 'orange', 'black', 'purple']
-    return colors[index % colors.length]
-  }
+  getColorValue = (): string => {
+    const color = this.state.color
 
-  getColorValue = (index: number): string => {
-    const colors = ['#00c0ef', '#d81b60', '#68738c', '#30bbbb', '#0b78ce', '#ff7701', '#111111', '#555299']
-    return colors[index % colors.length]
+    const colors: ColorMap = {
+      blue: '#00c0ef',
+      pink: '#d81b60',
+      gray: '#68738c',
+      green: '#30bbbb',
+      blue_two: '#0b78ce',
+      orange: '#ff7701',
+      black: '#111111',
+      purple: '#555299',
+    }
+
+    return colors[color] ? colors[color] : 'blue'
   }
 
   // Render causes method
@@ -107,23 +136,22 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
     const midPoint = Math.floor(children.length / 2)
     const causesArray = isTop ? children.slice(0, midPoint) : children.slice(midPoint)
-    const color = this.getColor(this.state.index)
 
     return causesArray.map((cause, index) => (
       <div key={`${isTop ? 'top' : 'bottom'}_causes_${cause.name}_${index}`} className='causeContent'>
-        {isTop && <div className={`cause top ${color}_ ${color}Border`}>{cause.name}</div>}
+        {isTop && <div className={`cause top ${this.state.color}_ ${this.state.color}Border`}>{cause.name}</div>}
         <div className={`causeAndLine ${isTop ? 'top-items' : 'bottom-items'}`}>
           {this.renderSubCauses(cause.children || [])}
-          <div className={`diagonalLine ${color}${isTop ? 'TopBottom' : 'BottomTop'}`} />
+          <div className={`diagonalLine ${this.state.color}${isTop ? 'TopBottom' : 'BottomTop'}`} />
         </div>
-        {!isTop && <div className={`cause bottom ${color}_ ${color}Border`}>{cause.name}</div>}
+        {!isTop && <div className={`cause bottom ${this.state.color}_ ${this.state.color}Border`}>{cause.name}</div>}
       </div>
     ))
   }
 
   // Render sub-causes method
   renderSubCauses = (subCauses: Cause[] | null): JSX.Element | null => {
-    const color = this.getColor(this.state.index)
+    const color = this.state.color
     return (
       <div className='rootCauses'>
         {Array.isArray(subCauses)
@@ -154,7 +182,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     return (
       <div className='causes'>
         <div className='causesGroup top-group'>{this.renderCauses(children, true)}</div>
-        <div className={`lineEffect thinBorder ${this.getColor(this.state.index)}Border`} />
+        <div className={`lineEffect thinBorder ${this.state.color}Border`} />
         <div className='causesGroup bottom-group'>{this.renderCauses(children, false)}</div>
       </div>
     )
@@ -163,12 +191,11 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
   // Get effect method
   getEffect = (): JSX.Element => {
     const title = this.state.data && this.state.data.title && this.state.data.title.length ? this.state.data.title : ''
-    const color = this.getColor(this.state.index)
-    const colorValue = this.getColorValue(this.state.index)
+
     return (
       <div className={`effect`}>
-        <div className={this.state.hasIcon ? `effectValue` : `effectValue ${color}Border bordered`}>
-          {this.state.hasIcon ? (
+        <div className={this.state.showSkeleton ? `effectValue` : `effectValue ${this.state.color}Border bordered`}>
+          {this.state.showSkeleton ? (
             <div className='svg-container'>
               <svg
                 version='1.0'
@@ -177,11 +204,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
                 width='150px'
                 height='150px'
               >
-                <g
-                  transform='translate(0,2600) scale(0.1,-0.1)'
-                  fill={colorValue}
-                  stroke='none'
-                >
+                <g transform='translate(0,2600) scale(0.1,-0.1)' fill={this.getColorValue()} stroke='none'>
                   <path
                     d='M11115 23116 c-1317 -567 -2786 -2560 -4292 -5825 -1362 -2952 -2754
                 -6983 -3772 -10918 -186 -719 -491 -2012 -491 -2083 0 -30 344 -344 610 -556
@@ -216,14 +239,13 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
   }
 
   getFishTail = (): JSX.Element => {
-    const colorValue = this.getColorValue(this.state.index)
     return (
       <Fragment>
-        {this.state.hasIcon ? (
+        {this.state.showSkeleton ? (
           <div className='fish-tail'>
             <svg
               className='fish-tail-svg'
-              fill={colorValue}
+              fill={this.getColorValue()}
               version='1.1'
               xmlns='http://www.w3.org/2000/svg'
               width='150px'
@@ -249,7 +271,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
   // Render method
   render() {
-    const { cols, hasLoader } = this.props
+    const { cols } = this.props
 
     if (!this.state.data) {
       return <Fragment>No Data Received</Fragment>
@@ -262,7 +284,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
           {this.getCauses()}
           {this.getEffect()}
         </div>
-        {hasLoader && this.state.isLoading ? (
+        {this.state.hasLoader && this.state.isLoading ? (
           <div className='fishbon-chart-overlay'>
             <div className='fishbon-chart-loader'></div>
           </div>
