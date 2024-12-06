@@ -10,7 +10,7 @@
         "prepublishOnly": "npm run build",
         "test": "cross-env CI=1 react-scripts test --env=jsdom",
         "test:watch": "react-scripts test --env=jsdom",
-        "start": "rollup -c -w",
+        "start": "npm run copy-css && tsc --watch",
         "prepare": "npm run build",
         "dopublish": "npm run build && npm publish",
         "predeploy": "cd example && npm install && npm run build",
