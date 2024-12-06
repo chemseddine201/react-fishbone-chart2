@@ -27,6 +27,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    padding: 5px;
 }
 
 .causesGroup {
@@ -38,14 +39,22 @@
 
 .cause {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    /* width: 60%; */
     font-size: 0.95em;
     font-weight: 400;
     padding: 5px;
     color: #4f4f4f;
+}
+
+.cause-start {
+    justify-content: start;
+    align-items: start;
+    text-align: start;
+}
+
+.cause-center {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .causeAndLine {
@@ -213,36 +222,37 @@
     color: #4f4f4f;
 }
 
-.effectValue {
+.bordered {
+    border: 3px solid;
+}
+
+.main-problem-title {
+    position: relative;
+}
+.main-problem-title > svg{
+    transform: rotate(90deg) scaleX(-1);
+    position: relative;
+    left: -40px;
+    aspect-ratio: 1;
+}
+
+.main-problem {
+    display: flex;
     justify-content: center;
     align-items: center;
     font-size: 0.95em;
     text-align: center;
     font-weight: 400;
     color: #4f4f4f;
-    padding: 5px 10px 5px 10px;
     position: relative;
-    border-radius: 5px;
-    /* background: #f9f9f9; */
     min-width: 200px;
     max-width: 240px;
 }
 
-.effectValue.bordered {
-    border: 3px solid;
-}
-
-.svg-container > svg{
-    transform: rotate(90deg) scaleX(-1);
-    position: relative;
-    left: -45px;
-    aspect-ratio: 1;
-}
-
 .absolute-tile {
     position: absolute;
-    left: 100px;
-    bottom: 130px;
+    top: -50px;
+    left: 50px;
 }
 
 .title {
@@ -250,6 +260,8 @@
     font-weight: 700;
     text-align: left;
     min-width: 220px;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
 }
 
 .fish-tail {
@@ -360,7 +372,12 @@
     border-right: 1px solid #f9f9f5;
     border-bottom: 1px solid #f9f9f5;
 }
+.subcauses-list-center {
 
+}
+.subcauses-list-start {
+ padding-left: 20px;
+}
 
 .cuseContainer {
     position: relative;

@@ -7,7 +7,7 @@ import './assets/style.css'
 // Interface definitions
 
 type ColorName = 'blue' | 'pink' | 'gray' | 'green' | 'blue_two' | 'orange' | 'black' | 'purple'
-
+type CauseAlignment  = 'start' | 'center';
 interface ColorMap {
   [key: string]: string
 }
@@ -29,6 +29,10 @@ interface FishboneChartProps {
   hasLoader: boolean
   color: string
   showSkeleton: boolean
+  alignment: CauseAlignment
+  mainProblemBackground: boolean
+  causeCategoryBackground: boolean
+  causeBackground: boolean
 }
 
 interface FishboneChartState {
@@ -37,6 +41,10 @@ interface FishboneChartState {
   isLoading: boolean
   showSkeleton: boolean
   hasLoader: boolean
+  alignment: CauseAlignment
+  mainProblemBackground: boolean
+  causeCategoryBackground: boolean
+  causeBackground: boolean
 }
 
 class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
@@ -47,6 +55,10 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     loaderTime: 500,
     color: 'blue',
     showSkeleton: true,
+    alignment: 'start',
+    mainProblemBackground: false,
+    causeCategoryBackground: false,
+    causeBackground: false
   }
 
   // Initial state
@@ -56,17 +68,35 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     isLoading: true,
     showSkeleton: true,
     hasLoader: true,
+    alignment: 'start',
+    mainProblemBackground: false,
+    causeCategoryBackground: false,
+    causeBackground: false,
   }
 
   componentWillMount() {
-    const { data, color, showSkeleton, hasLoader } = this.props
-    this.setState({
+    const { 
+      data, 
+      color, 
+      showSkeleton, 
+      hasLoader,
+      alignment = 'start',
+      mainProblemBackground = false,
+      causeCategoryBackground = false,
+      causeBackground = false,
+    } = this.props
+    this.setState(prevState => ({
+      ...prevState,
       data,
-      color: color,
-      showSkeleton: showSkeleton,
-      hasLoader: hasLoader,
+      color,
+      showSkeleton,
+      hasLoader,
+      alignment,
+      mainProblemBackground,
+      causeCategoryBackground,
+      causeBackground,
       isLoading: true,
-    })
+    }))
   }
 
   // Lifecycle method to update state when props change
@@ -79,13 +109,27 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
   // Lifecycle method to initialize fishbone and add resize listener
   componentDidMount() {
-     const { data, color, showSkeleton, hasLoader } = this.props
-      this.setState({
+     const { 
+      data, 
+      color, 
+      showSkeleton, 
+      hasLoader, 
+      alignment = 'start', 
+      mainProblemBackground = false,
+      causeCategoryBackground = false,
+      causeBackground = false 
+    } = this.props
+      this.setState(prevState => ({
+        ...prevState,
         data,
-        color: color,
-        showSkeleton: showSkeleton,
-        hasLoader: hasLoader,
-      }) 
+        color,
+        showSkeleton,
+        hasLoader,
+        alignment,
+        mainProblemBackground,
+        causeCategoryBackground,
+        causeBackground
+    }))
     this.initFishbone()
     window.addEventListener('resize', this.handleResize)
   }
@@ -102,9 +146,15 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
   }
 
   handleLoader = (): void => {
-    this.setState({ isLoading: true })
+    this.setState(prevState => ({ 
+      ...prevState, 
+      isLoading: true 
+    }))
     setTimeout(() => {
-      this.setState({ isLoading: false })
+      this.setState(prevState => ({
+        ...prevState, 
+        isLoading: false 
+      }))
     }, this.props.loaderTime || 500)
   }
 
@@ -139,28 +189,28 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
     return causesArray.map((cause, index) => (
       <div key={`${isTop ? 'top' : 'bottom'}_causes_${cause.name}_${index}`} className='causeContent'>
-        {isTop && <div className={`cause top ${this.state.color}_ ${this.state.color}Border`}>{cause.name}</div>}
+        {isTop && <div className={`cause top cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
         <div className={`causeAndLine ${isTop ? 'top-items' : 'bottom-items'}`}>
           {this.renderSubCauses(cause.children || [])}
           <div className={`diagonalLine ${this.state.color}${isTop ? 'TopBottom' : 'BottomTop'}`} />
         </div>
-        {!isTop && <div className={`cause bottom ${this.state.color}_ ${this.state.color}Border`}>{cause.name}</div>}
+        {!isTop && <div className={`cause cause-${this.state.alignment} bottom ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
       </div>
     ))
   }
 
   // Render sub-causes method
   renderSubCauses = (subCauses: Cause[] | null): JSX.Element | null => {
-    const color = this.state.color
+    const color = this.state.color;
     return (
       <div className='rootCauses'>
         {Array.isArray(subCauses)
           ? subCauses.map((subCause, index) => (
               <div className='cuseContainer' key={`root_causes_${subCause.name}_${index}`}>
-                <span className={`cause top ${color}Border lineEffect bold`}>{subCause.name}</span>
+                <span className={`cause top cause-${this.state.alignment} ${color}Border bold ${this.state.causeBackground ? this.state.color+'_' : ''}`}>{subCause.name}</span>
                 <div className={`${color}Border absoluteBorder`} />
                 <div className='subcauses-list-container'>
-                  <ul className='subcauses-list'>
+                  <ul className={`subcauses-list-${this.state.alignment}`}>
                     {Array.isArray(subCause.children)
                       ? subCause.children.map((_subCause, idx) => (
                           <li key={`sub_causes_${idx}_${_subCause.name}`}>{_subCause.name}</li>
@@ -191,12 +241,13 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
   // Get effect method
   getEffect = (): JSX.Element => {
     const title = this.state.data && this.state.data.title && this.state.data.title.length ? this.state.data.title : ''
+    const colorValue = this.getColorValue();
 
     return (
-      <div className={`effect`}>
-        <div className={this.state.showSkeleton ? `effectValue` : `effectValue ${this.state.color}Border bordered`}>
+      <div className={`main-problem`}>
           {this.state.showSkeleton ? (
-            <div className='svg-container'>
+            <div className='main-problem-title'>
+              <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + '_' : ''}`} >{title}</div>
               <svg
                 version='1.0'
                 xmlns='http://www.w3.org/2000/svg'
@@ -204,7 +255,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
                 width='150px'
                 height='150px'
               >
-                <g transform='translate(0,2600) scale(0.1,-0.1)' fill={this.getColorValue()} stroke='none'>
+                <g transform='translate(0,2600) scale(0.1,-0.1)' fill={colorValue} stroke='none'>
                   <path
                     d='M11115 23116 c-1317 -567 -2786 -2560 -4292 -5825 -1362 -2952 -2754
                 -6983 -3772 -10918 -186 -719 -491 -2012 -491 -2083 0 -30 344 -344 610 -556
@@ -228,12 +279,10 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
                   />
                 </g>
               </svg>
-              <div className='absolute-tile title'>{title}</div>
             </div>
           ) : (
-            <span className='title'>{title}</span>
+            <div className={`title bordered ${this.state.color}Border ${this.state.mainProblemBackground ? this.state.color + '_' : ''}`} >{title}</div>
           )}
-        </div>
       </div>
     )
   }

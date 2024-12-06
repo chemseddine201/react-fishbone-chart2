@@ -16,7 +16,7 @@ export class FishboneDrawer {
         this.lineSelector = '.diagonalLine';
         this.containerSelector = '.cuseContainer';
         this.borderSelector = '.absoluteBorder';
-        this.effectTitleIconContainerSelector = '.effectValue';
+        this.effectTitleIconContainerSelector = '.main-problem';
         this.topCausesContainerSelector = '.top-group';
         this.fishTailSelectorIcon = '.fish-tail-svg';
     }
@@ -183,7 +183,7 @@ export class FishboneDrawer {
         if (fishTailIcon) {
             const fishTailIconBoundries = fishTailIcon.getBoundingClientRect();
             const yPosition = topCausesBoundaries.height - (fishTailIconBoundries.height / 2);
-            fishTailIcon.style.top = `${3+yPosition}px`;
+            fishTailIcon.style.top = `${yPosition+8}px`;//8 for padding handle
         }
     }
 }
