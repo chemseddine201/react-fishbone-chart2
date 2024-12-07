@@ -328,7 +328,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
     return (
       <Grid cols={cols}>
-        <div className={`fishboneChart ${this.state.isLoading ? 'hidden' : 'visible'}`}>
+        <div className={`fishboneChart ${this.state.hasLoader && this.state.isLoading && 'hidden'}`}>
           {this.getFishTail()}
           {this.getCauses()}
           {this.getEffect()}

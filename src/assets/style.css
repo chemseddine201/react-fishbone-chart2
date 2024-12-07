@@ -5,12 +5,9 @@
     min-height: 200px;
 }
 
-.fishboneChart.visible {
-    visibility: visible;
-}
 
-.fishboneChart.hidden {
-    visibility: hidden;
+.fishboneChart.hidden > * {
+    visibility: hidden !important;
 }
 
 .top {
