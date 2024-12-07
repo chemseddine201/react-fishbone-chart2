@@ -5,6 +5,14 @@
     min-height: 200px;
 }
 
+.fishboneChart.visible {
+    visibility: visible;
+}
+
+.fishboneChart.hidden {
+    visibility: hidden;
+}
+
 .top {
     border-bottom: 2px solid;
     border-radius: 5% 5% 0 0;
@@ -251,17 +259,18 @@
 
 .absolute-tile {
     position: absolute;
-    top: -50px;
+    top: -100px;
     left: 50px;
 }
 
 .title {
     font-size: 0.9em;
     font-weight: 700;
-    text-align: left;
-    min-width: 220px;
+    text-align: center;
     padding: 5px 10px 5px 10px;
     border-radius: 5px;
+    max-width: 300px;
+    width: 220px;
 }
 
 .fish-tail {
