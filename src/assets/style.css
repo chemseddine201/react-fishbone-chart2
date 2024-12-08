@@ -382,7 +382,7 @@
     border-bottom: 1px solid #f9f9f5;
 }
 .subcauses-list-center {
-
+    text-align: center;
 }
 .subcauses-list-start {
  padding-left: 20px;
