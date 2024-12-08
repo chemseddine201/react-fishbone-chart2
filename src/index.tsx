@@ -141,8 +141,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
   // Method to initialize fishbone
   initFishbone = (): void => {
+    this.handleLoader();
     new FishboneDrawer().init()
-    this.handleLoader()
   }
 
   handleLoader = (): void => {
@@ -244,7 +244,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     const colorValue = this.getColorValue();
 
     return (
-      <div className={`main-problem`}>
+      <div className={`main-problem ${!this.state.isLoading ? '' : 'hidden'}`}>
           {this.state.showSkeleton ? (
             <div className='main-problem-title'>
               <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + '_' : ''}`} >{title}</div>
@@ -291,7 +291,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     return (
       <Fragment>
         {this.state.showSkeleton ? (
-          <div className='fish-tail'>
+          <div className={`fish-tail ${!this.state.isLoading ? '' : 'hidden'}`}>
             <svg
               className='fish-tail-svg'
               fill={this.getColorValue()}
@@ -328,7 +328,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
 
     return (
       <Grid cols={cols}>
-        <div className={`fishboneChart ${this.state.hasLoader && this.state.isLoading && 'hidden'}`}>
+        <div className={`fishboneChart ${!this.state.isLoading ? '' : 'hidden'}`}>
           {this.getFishTail()}
           {this.getCauses()}
           {this.getEffect()}

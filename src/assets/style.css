@@ -5,6 +5,9 @@
     min-height: 200px;
 }
 
+.hidden {
+    visibility: hidden !important;
+}
 
 .fishboneChart.hidden > * {
     visibility: hidden !important;
