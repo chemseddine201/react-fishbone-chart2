@@ -139,10 +139,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
       ...prevState, 
       isLoading: true 
     }))
-    //
-    new FishboneDrawer().init()
-    //
     setTimeout(() => {
+      new FishboneDrawer().init()
       this.setState(prevState => ({
         ...prevState, 
         isLoading: false 
