@@ -37,8 +37,7 @@ export class FishboneDrawer {
      */
     drawTopItems(): void {
         const topItems = document.querySelectorAll<HTMLElement>(this.topSelector);
-        if (topItems.length === 0) {
-            console.warn('No top items found');
+        if (!topItems) {
             return;
         }
         this.processItems(topItems, false);
@@ -50,7 +49,7 @@ export class FishboneDrawer {
      */
     async drawBottomItems(): Promise<void> {
         const bottomItems = document.querySelectorAll<HTMLElement>(this.bottomSelector);
-        if (bottomItems.length === 0) {
+        if (!bottomItems) {
             console.warn('No bottom items found');
             return;
         }
@@ -111,7 +110,14 @@ export class FishboneDrawer {
             const itemWidth = container.getBoundingClientRect().width;
             const absoluteBorder = container.querySelector(this.borderSelector);
             
-            if (!absoluteBorder) {
+            if (!absoluteBorder) {console.log('FishboneDrawer initialized');
+console.log('Drawing top items');
+console.log('Drawing bottom items');
+console.log('Fixing title position');
+console.log('Processing items for positioning');
+console.log('Adjusting container alignment');
+console.log('Positioning containers along the diagonal line');
+console.log('Setting styles for individual containers');
                 console.warn('No absolute border found for container', { container });
                 return;
             }
