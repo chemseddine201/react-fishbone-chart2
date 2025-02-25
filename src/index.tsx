@@ -201,7 +201,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
   }
 
   // Handle resize with ResizeObserver for better performance
-  handleContainerResize = (entries: ResizeObserverEntry[]) => {
+  handleContainerResize = () => {
     if (!this.state.isLoading) {
       this.initFishbone();
     }
