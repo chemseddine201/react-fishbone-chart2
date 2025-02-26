@@ -23,24 +23,25 @@ export class FishboneDrawer {
 
     /**
      * Initialize the fishbone diagram with sequential and error-handled steps
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    init(): void {
-        this.drawTopItems();
-        this.drawBottomItems();
-        this.fixTitlePosition();
+    async init(): Promise<void> {
+        await this.drawTopItems();
+        await this.drawBottomItems();
+        await this.fixTitlePosition();
     }
 
     /**
      * Draw top items of the fishbone diagram
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    drawTopItems(): void {
+    async drawTopItems(): Promise<void> {
         const topItems = document.querySelectorAll<HTMLElement>(this.topSelector);
-        if (!topItems) {
+        if (!topItems || topItems.length === 0) {
+            console.warn('No top items found');
             return;
         }
-        this.processItems(topItems, false);
+        await this.processItems(topItems, false);
     }
 
     /**
@@ -49,11 +50,11 @@ export class FishboneDrawer {
      */
     async drawBottomItems(): Promise<void> {
         const bottomItems = document.querySelectorAll<HTMLElement>(this.bottomSelector);
-        if (!bottomItems) {
+        if (!bottomItems || bottomItems.length === 0) {
             console.warn('No bottom items found');
             return;
         }
-        this.processItems(bottomItems, true);
+        await this.processItems(bottomItems, true);
     }
 
     /**
@@ -61,13 +62,13 @@ export class FishboneDrawer {
      * @param {NodeListOf<HTMLElement>} items - Items to process
      * @param {boolean} isBottom - Whether these are bottom items
      */
-    private processItems(items: NodeListOf<HTMLElement>, isBottom: boolean): void {
+    private async processItems(items: NodeListOf<HTMLElement>, isBottom: boolean): Promise<void> {
         if (!items || items.length === 0) return;
 
         items.forEach(item => {
             const rootCauses = item.querySelector<HTMLElement>(this.causesSelector);
             const diagonalLine = item.querySelector<HTMLElement>(this.lineSelector);
-            
+
             if (!rootCauses || !diagonalLine) {
                 console.warn('Missing root causes or diagonal line', { item, rootCauses, diagonalLine });
                 return;
@@ -75,7 +76,7 @@ export class FishboneDrawer {
 
             const lineWidth = diagonalLine.getBoundingClientRect().width;
             const containers = rootCauses.querySelectorAll<HTMLElement>(this.containerSelector);
-            
+
             if (!containers || containers.length === 0) {
                 console.warn('No containers found', { rootCauses });
                 return;
@@ -109,15 +110,8 @@ export class FishboneDrawer {
         containers.forEach((container, index) => {
             const itemWidth = container.getBoundingClientRect().width;
             const absoluteBorder = container.querySelector(this.borderSelector);
-            
-            if (!absoluteBorder) {console.log('FishboneDrawer initialized');
-console.log('Drawing top items');
-console.log('Drawing bottom items');
-console.log('Fixing title position');
-console.log('Processing items for positioning');
-console.log('Adjusting container alignment');
-console.log('Positioning containers along the diagonal line');
-console.log('Setting styles for individual containers');
+
+            if (!absoluteBorder) {
                 console.warn('No absolute border found for container', { container });
                 return;
             }
@@ -167,13 +161,13 @@ console.log('Setting styles for individual containers');
 
     /**
      * Fix the position of the title
-     * @returns {void}
+     * @returns {Promise<void>}
      */
-    fixTitlePosition(): void {
+    async fixTitlePosition(): Promise<void> {
         const topCausesContainer = document.querySelector<HTMLElement>(this.topCausesContainerSelector);
         const titleIconContainer = document.querySelector<HTMLElement>(this.effectTitleIconContainerSelector);
         const fishTailIcon = document.querySelector<HTMLElement>(this.fishTailSelectorIcon);
-        if(!topCausesContainer){
+        if (!topCausesContainer) {
             return;
         }
         const topCausesBoundaries = topCausesContainer.getBoundingClientRect();
@@ -189,7 +183,7 @@ console.log('Setting styles for individual containers');
         if (fishTailIcon) {
             const fishTailIconBoundries = fishTailIcon.getBoundingClientRect();
             const yPosition = topCausesBoundaries.height - (fishTailIconBoundries.height / 2);
-            fishTailIcon.style.top = `${yPosition+8}px`;//8 for padding handle
+            fishTailIcon.style.top = `${yPosition + 8}px`;//8 for padding handle
         }
     }
 }

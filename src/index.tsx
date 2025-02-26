@@ -227,6 +227,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
   // Method to initialize fishbone
   initFishbone = (): void => {
     try {
+      const drawer = new FishboneDrawer();
+
       this.setState(prevState => ({
         ...prevState, 
         isLoading: true,
@@ -240,19 +242,22 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
       
       setTimeout(() => {
         try {
-          new FishboneDrawer().init();
-          
-          this.setState(prevState => ({
-            ...prevState, 
-            isLoading: false,
-            isInitialized: true
-          }), () => {
-            this.handleComponentReady();
-            // Call onInitEnd callback if provided
-            if (this.props.onInitEnd) {
-              this.props.onInitEnd();
-            }
-          });
+          drawer.init().then(() => {
+              this.setState(prevState => ({
+                ...prevState, 
+                isLoading: false,
+                isInitialized: true
+              }), () => {
+                // Call Ready callback
+                this.handleComponentReady();
+                // Call onInitEnd callback if provided
+                if (this.props.onInitEnd) {
+                  this.props.onInitEnd();
+                }
+              });
+          }).catch(err => {
+            this.handleError(err as Error);
+          })
         } catch (error) {
           this.handleError(error as Error);
         }
