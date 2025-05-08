@@ -182,8 +182,8 @@ export class FishboneDrawer {
             //
             const titleContainer = titleIconContainer.querySelector<HTMLElement>(this.effectTitleSelector);
             if (titleContainer) {
-                const titleXPosition = Math.floor(titleContainer.getBoundingClientRect().width / 2);
-                titleContainer.style.left = `-${titleXPosition}px`;
+                //const titleXPosition = Math.floor(titleContainer.getBoundingClientRect().width / 2);
+                titleContainer.style.left = `-36px`;
             }
         }
 
