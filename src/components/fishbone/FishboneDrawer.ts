@@ -6,6 +6,7 @@ export class FishboneDrawer {
     private containerSelector: string;
     private borderSelector: string;
     private effectTitleIconContainerSelector: string;
+    private effectTitleSelector: string;
     private topCausesContainerSelector: string;
     private fishTailSelectorIcon: string;
 
@@ -17,6 +18,7 @@ export class FishboneDrawer {
         this.containerSelector = '.cuseContainer';
         this.borderSelector = '.absoluteBorder';
         this.effectTitleIconContainerSelector = '.main-problem';
+        this.effectTitleSelector = '.title.visible';
         this.topCausesContainerSelector = '.top-group';
         this.fishTailSelectorIcon = '.fish-tail-svg';
     }
@@ -173,10 +175,16 @@ export class FishboneDrawer {
         const topCausesBoundaries = topCausesContainer.getBoundingClientRect();
 
         if (titleIconContainer) {
-
             const titleIconContainerBoundaries = titleIconContainer.getBoundingClientRect();
             const yPosition = topCausesBoundaries.height - (titleIconContainerBoundaries.height / 2);
-            titleIconContainer.style.top = `${yPosition}px`;
+            //
+         titleIconContainer.style.top = `${yPosition}px`;
+            //
+            const titleContainer = titleIconContainer.querySelector<HTMLElement>(this.effectTitleSelector);
+            if (titleContainer) {
+                const titleXPosition = Math.floor(titleContainer.getBoundingClientRect().width / 2);
+                titleContainer.style.left = `-${titleXPosition}px`;
+            }
         }
 
 

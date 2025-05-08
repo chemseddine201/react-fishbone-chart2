@@ -30,6 +30,7 @@ interface FishboneChartProps {
   hasLoader: boolean
   color: string
   showSkeleton: boolean
+  showTitle: boolean
   alignment: CauseAlignment
   mainProblemBackground: boolean
   causeCategoryBackground: boolean
@@ -55,6 +56,7 @@ interface FishboneChartState {
   color: string
   isLoading: boolean
   showSkeleton: boolean
+  showTitle: boolean
   hasLoader: boolean
   alignment: CauseAlignment
   mainProblemBackground: boolean
@@ -73,6 +75,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     loaderTime: 500,
     color: 'blue',
     showSkeleton: true,
+    showTitle: true,
     alignment: 'start',
     mainProblemBackground: false,
     causeCategoryBackground: false,
@@ -88,6 +91,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     color: 'blue',
     isLoading: true,
     showSkeleton: true,
+    showTitle: true,
     hasLoader: true,
     alignment: 'start',
     mainProblemBackground: false,
@@ -147,6 +151,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         data, 
         color, 
         showSkeleton, 
+        showTitle, 
         hasLoader, 
         alignment = 'start', 
         mainProblemBackground = false,
@@ -160,6 +165,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         data,
         color,
         showSkeleton,
+        showTitle,
         hasLoader,
         alignment,
         mainProblemBackground,
@@ -442,7 +448,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
       <div className={`main-problem ${!this.state.isLoading ? '' : 'hidden'}`}>
           {this.state.showSkeleton ? (
             <div className='main-problem-title'>
-              <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + '_' : ''}`} >{title}</div>
+              <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'hidden'}`} >{title}</div>
               <svg
                 version='1.0'
                 xmlns='http://www.w3.org/2000/svg'
@@ -476,7 +482,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
               </svg>
             </div>
           ) : (
-            <div className={`title bordered ${this.state.color}Border ${this.state.mainProblemBackground ? this.state.color + '_' : ''}`} >{title}</div>
+             <div className={`title bordered ${this.state.color}Border ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'hidden'}`} >{title}</div>
           )}
       </div>
     )
