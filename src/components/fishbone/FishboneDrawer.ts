@@ -177,12 +177,10 @@ export class FishboneDrawer {
         if (titleIconContainer) {
             const titleIconContainerBoundaries = titleIconContainer.getBoundingClientRect();
             const yPosition = topCausesBoundaries.height - (titleIconContainerBoundaries.height / 2);
-            //
-         titleIconContainer.style.top = `${yPosition}px`;
+            titleIconContainer.style.top = `${yPosition}px`;
             //
             const titleContainer = titleIconContainer.querySelector<HTMLElement>(this.effectTitleSelector);
             if (titleContainer) {
-                //const titleXPosition = Math.floor(titleContainer.getBoundingClientRect().width / 2);
                 titleContainer.style.left = `-36px`;
             }
         }
