@@ -172,24 +172,25 @@ export class FishboneDrawer {
         if (!topCausesContainer) {
             return;
         }
-        const topCausesBoundaries = topCausesContainer.getBoundingClientRect();
 
+        const topCausesBoundaries = topCausesContainer.getBoundingClientRect();
+        
         if (titleIconContainer) {
+            //force display to get the boundries
             const titleIconContainerBoundaries = titleIconContainer.getBoundingClientRect();
             const yPosition = topCausesBoundaries.height - (titleIconContainerBoundaries.height / 2);
-            titleIconContainer.style.top = `${yPosition}px`;
+            titleIconContainer.style.top = `${Math.floor(yPosition)}px`;
             //
             const titleContainer = titleIconContainer.querySelector<HTMLElement>(this.effectTitleSelector);
             if (titleContainer) {
                 titleContainer.style.left = `-36px`;
-            }
+            } 
         }
-
 
         if (fishTailIcon) {
             const fishTailIconBoundries = fishTailIcon.getBoundingClientRect();
             const yPosition = topCausesBoundaries.height - (fishTailIconBoundries.height / 2);
-            fishTailIcon.style.top = `${yPosition + 8}px`;//8 for padding handle
+            fishTailIcon.style.top = `${Math.floor(yPosition) + 8}px`;//8 for padding handle
         }
     }
 }
