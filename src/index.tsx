@@ -375,12 +375,12 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
               className='causeContent'
               onClick={() => this.handleCauseClick(cause)}
             >
-              {isTop && <div className={`cause top cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
+              {isTop && <div className={`cause top cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
               <div className={`causeAndLine ${isTop ? 'top-items' : 'bottom-items'}`}>
                 {this.renderSubCauses(cause.children || [])}
                 <div className={`diagonalLine ${this.state.color}${isTop ? 'TopBottom' : 'BottomTop'}`} />
               </div>
-              {!isTop && <div className={`cause cause-${this.state.alignment} bottom ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
+              {!isTop && <div className={`cause bottom cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
             </div>
           )
         })

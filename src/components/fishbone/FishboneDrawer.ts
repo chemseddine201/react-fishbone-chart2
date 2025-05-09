@@ -9,6 +9,8 @@ export class FishboneDrawer {
     private effectTitleSelector: string;
     private topCausesContainerSelector: string;
     private fishTailSelectorIcon: string;
+    private mainTopCauseTitle: string;
+    private mainBottomCauseTitle: string;
 
     constructor() {
         this.topSelector = '.causeAndLine.top-items';
@@ -21,6 +23,8 @@ export class FishboneDrawer {
         this.effectTitleSelector = '.title.visible';
         this.topCausesContainerSelector = '.top-group';
         this.fishTailSelectorIcon = '.fish-tail-svg';
+        this.mainTopCauseTitle = '.cause.top.cause-title';
+        this.mainBottomCauseTitle = '.cause.bottom.cause-title';
     }
 
     /**
@@ -31,6 +35,7 @@ export class FishboneDrawer {
         await this.drawTopItems();
         await this.drawBottomItems();
         await this.fixTitlePosition();
+        await this.fixCausesTitlesPositions();
     }
 
     /**
@@ -183,7 +188,9 @@ export class FishboneDrawer {
             //
             const titleContainer = titleIconContainer.querySelector<HTMLElement>(this.effectTitleSelector);
             if (titleContainer) {
+                const titleHeight = titleContainer.getBoundingClientRect().height;
                 titleContainer.style.left = `-36px`;
+                titleContainer.style.top = `-${Math.floor(titleHeight)}px`;
             } 
         }
 
@@ -192,5 +199,24 @@ export class FishboneDrawer {
             const yPosition = topCausesBoundaries.height - (fishTailIconBoundries.height / 2);
             fishTailIcon.style.top = `${Math.floor(yPosition) + 8}px`;//8 for padding handle
         }
+    }
+    
+    async fixCausesTitlesPositions(): Promise<void> {
+        
+        //fix top causes titles
+        const mainTopCauseTitleComp: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(this.mainTopCauseTitle);
+        mainTopCauseTitleComp.forEach((elm: HTMLElement) => {
+            const elementWidth: number = ((mainTopCauseTitleComp.length > 1) ? Math.floor(elm.getBoundingClientRect().width / 2) : elm.getBoundingClientRect().width);
+            elm.style.position = "relative";
+            elm.style.right = `-${elementWidth}px`; // Added missing 'px' unit
+        });
+        
+        //fix bottom causes titles
+        const mainBottomCauseTitleComp: NodeListOf<HTMLElement> = document.querySelectorAll<HTMLElement>(this.mainBottomCauseTitle);
+        mainBottomCauseTitleComp.forEach((elm: HTMLElement) => {
+            const elementWidth: number = ((mainBottomCauseTitleComp.length > 1) ? Math.floor(elm.getBoundingClientRect().width / 2) : elm.getBoundingClientRect().width);
+            elm.style.position = "relative";
+            elm.style.right = `-${elementWidth}px`; // Added missing 'px' unit
+        });
     }
 }
