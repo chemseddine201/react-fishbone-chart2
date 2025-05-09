@@ -445,10 +445,10 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     const colorValue = this.getColorValue();
 
     return (
-      <div className={`main-problem ${!this.state.isLoading ? '' : 'hidden'}`}>
+      <div className={`main-problem ${!this.state.isLoading ? '' : 'unvisible'}`}>
           {this.state.showSkeleton ? (
             <div className='main-problem-title'>
-              <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'hidden'}`} >{title}</div>
+              <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'unvisible'}`} >{title}</div>
               <svg
                 version='1.0'
                 xmlns='http://www.w3.org/2000/svg'
@@ -482,7 +482,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
               </svg>
             </div>
           ) : (
-             <div className={`title bordered ${this.state.color}Border ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'hidden'}`} >{title}</div>
+             <div className={`title bordered ${this.state.color}Border ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'unvisible'}`} >{title}</div>
           )}
       </div>
     )
@@ -492,7 +492,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     return (
       <Fragment>
         {this.state.showSkeleton ? (
-          <div className={`fish-tail ${!this.state.isLoading ? '' : 'hidden'}`}>
+          <div className={`fish-tail ${!this.state.isLoading ? '' : 'unvisible'}`}>
               <svg
               className='fish-tail-svg'
               fill={this.getColorValue()}
@@ -546,7 +546,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
       <Grid cols={cols}>
         <div 
           ref={this.fishboneContainer}
-          className={`fishboneChart ${!this.state.isLoading ? '' : 'hidden'} ${className || ''}`}
+          className={`fishboneChart ${!this.state.isLoading ? 'visible' : 'unvisible'} ${className || ''}`}
           style={containerStyle}
         >
           {this.getFishTail()}

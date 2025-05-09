@@ -3,14 +3,31 @@
     display: flex;
     justify-items: center;
     min-height: 200px;
+    opacity: 1;
 }
 
-.hidden {
-    visibility: hidden !important;
+.visible {
+    opacity: 1 !important;
+    pointer-events: unset; 
+    z-index: unset;
 }
 
-.fishboneChart.hidden > * {
-    visibility: hidden !important;
+.unvisible {
+    opacity: 0 !important;
+    pointer-events: none; 
+    z-index: -1;
+}
+
+.fishboneChart.unvisible > * {
+    opacity: 0 !important;
+    pointer-events: none; 
+    z-index: -1;
+}
+
+.fishboneChart.visible > * {
+    opacity: 1 !important;
+    pointer-events: unset; 
+    z-index: unset;
 }
 
 .top {
