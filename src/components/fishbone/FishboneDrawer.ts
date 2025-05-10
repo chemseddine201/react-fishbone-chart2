@@ -35,7 +35,7 @@ export class FishboneDrawer {
         await this.drawTopItems();
         await this.drawBottomItems();
         await this.fixTitlePosition();
-        await this.fixCausesTitlesPositions();
+        //await this.fixCausesTitlesPositions();
     }
 
     /**
