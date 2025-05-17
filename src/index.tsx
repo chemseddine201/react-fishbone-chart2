@@ -7,14 +7,22 @@ import './assets/style.css'
 // Interface definitions
 //type ColorName = 'blue' | 'pink' | 'gray' | 'green' | 'blue_two' | 'orange' | 'black' | 'purple'
 type CauseAlignment  = 'start' | 'center';
+
+type TitleBorderType = 'hexa' | 'rect' | 'rouned' | '';
 interface ColorMap {
   [key: string]: string
 }
+
 
 interface Cause {
   name: string
   children?: Cause[]
   id?: string | number  // Added ID for item identification
+}
+
+interface GradientColor {
+  from: string,
+  to: string
 }
 
 interface FishboneChartData {
@@ -48,7 +56,8 @@ interface FishboneChartProps {
   animationDuration?: number  // Control animation speed
   onInitStart?: () => void  // Lifecycle hook before initiation of fishbone
   onInitEnd?: () => void    // Lifecycle hook after fishbone initiate
-  hexaTitle?: boolean //show titles as hexagon this force alignment center
+  titleBordersView?: TitleBorderType //show titles as hexagon this force alignment center
+  titleGradient: GradientColor
 }
 
 interface FishboneChartState {
@@ -65,7 +74,8 @@ interface FishboneChartState {
   isInitialized: boolean  // Track initialization state
   error: Error | null     // Track errors
   customColors: ColorMap  // Store custom colors
-  hexaTitle: boolean //this force alignement to center and change backgrounds into hexagon
+  titleBordersView: TitleBorderType //this force alignement to center and change backgrounds into hexagon
+  titleGradient: GradientColor
 }
 
 class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
@@ -84,7 +94,11 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     debug: false,
     disableResize: false,
     animationDuration: 300,
-    hexaTitle: false
+    titleBordersView: '',
+    titleGradient: {
+      from: "",
+      to: ""
+    }
   }
 
   // Initial state
@@ -102,7 +116,11 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     isInitialized: false,
     error: null,
     customColors: {},
-    hexaTitle: false
+    titleBordersView: '',
+    titleGradient: {
+       from: "",
+      to: ""
+    }
   }
 
   // Component references
@@ -125,8 +143,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         prevProps.causeCategoryBackground !== this.props.causeCategoryBackground ||
         prevProps.causeBackground !== this.props.causeBackground ||
         prevProps.customColors !== this.props.customColors ||
-        prevProps.hexaTitle !== this.props.hexaTitle
-      
+        prevProps.titleBordersView !== this.props.titleBordersView ||
+        prevProps.titleGradient !== this.props.titleGradient
       ) {
       this.setState({
         color: this.props.color,
@@ -135,7 +153,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         causeCategoryBackground: this.props.causeCategoryBackground,
         causeBackground: this.props.causeBackground,
         customColors: this.props.customColors || {},
-        hexaTitle: this.props.hexaTitle || false,
+        titleBordersView: this.props.titleBordersView || '',
+        titleGradient: this.props.titleGradient || {from: '', to: ''} ,
       }, () => {
         this.initFishbone();
       });
@@ -165,7 +184,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         causeCategoryBackground = false,
         causeBackground = false,
         customColors = {},
-        hexaTitle = false
+        titleBordersView = ''
       } = this.props
         
       this.setState(prevState => ({
@@ -180,7 +199,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         causeCategoryBackground,
         causeBackground,
         customColors,
-        hexaTitle,
+        titleBordersView,
       }), () => {
         this.initFishbone();
       })
@@ -384,12 +403,19 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
               className='causeContent'
               onClick={() => this.handleCauseClick(cause)}
             >
-              {isTop && <div className={`cause top cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border ${this.state.hexaTitle ? 'hexa' : ''}`} >{cause.name}</div>}
+              {isTop && <div 
+                    className={`cause top cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'Background' : ''} ${this.state.color}Border ${this.state.titleBordersView}`} 
+                    style={this.state.causeCategoryBackground ? undefined : this.getTitleGradientColor()}
+                  >{cause.name}</div>
+                }
               <div className={`causeAndLine ${isTop ? 'top-items' : 'bottom-items'}`}>
                 {this.renderSubCauses(cause.children || [])}
                 <div className={`diagonalLine ${this.state.color}${isTop ? 'TopBottom' : 'BottomTop'}`} />
               </div>
-              {!isTop && <div className={`cause bottom cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border ${this.state.hexaTitle ? 'hexa' : ''}`}>{cause.name}</div>}
+              {!isTop && <div 
+                className={`cause bottom cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'Background' : ''} ${this.state.color}Border ${this.state.titleBordersView}`}
+                style={this.state.causeCategoryBackground ? undefined : this.getTitleGradientColor()}
+              >{cause.name}</div>}
             </div>
           )
         })
@@ -409,7 +435,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
                 key={`root_causes_${subCause.id || subCause.name}_${index}`}
                 onClick={() => this.handleCauseClick(subCause)}
               >
-                <span className={`cause top cause-${this.state.alignment} ${color}Border bold ${this.state.causeBackground ? this.state.color+'_' : ''}`}>{subCause.name}</span>
+                <span className={`cause top cause-${this.state.alignment} ${color}Border bold ${this.state.causeBackground ? this.state.color+'Background' : ''}`}>{subCause.name}</span>
                 <div className={`${color}Border absoluteBorder`} />
                 <div className='subcauses-list-container'>
                   <ul className={`subcauses-list-${this.state.alignment}`}>
@@ -457,7 +483,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
       <div className={`main-problem ${!this.state.isLoading ? '' : 'unvisible'}`}>
           {this.state.showSkeleton ? (
             <div className='main-problem-title'>
-              <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'unvisible'}`} >{title}</div>
+              <div className={`title absolute-tile bordered ${this.state.color+'Border'} ${this.state.mainProblemBackground ? this.state.color + 'Background' : ''} ${this.state.showTitle ? 'visible' : 'unvisible'}`} >{title}</div>
               <svg
                 version='1.0'
                 xmlns='http://www.w3.org/2000/svg'
@@ -491,7 +517,7 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
               </svg>
             </div>
           ) : (
-             <div className={`title bordered ${this.state.color}Border ${this.state.mainProblemBackground ? this.state.color + '_' : ''} ${this.state.showTitle ? 'visible' : 'unvisible'}`} >{title}</div>
+             <div className={`title bordered ${this.state.color}Border ${this.state.mainProblemBackground ? this.state.color + 'Background' : ''} ${this.state.showTitle ? 'visible' : 'unvisible'}`} >{title}</div>
           )}
       </div>
     )
@@ -526,6 +552,19 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         ) : null}
       </Fragment>
     )
+  }
+
+
+  getTitleGradientColor = () => {
+    const {from, to} = this.state.titleGradient;
+    if(
+      from && from.length && to && to.length
+    ) {
+      return {
+        background: `linear-gradient(to right, ${from},${to}) !important`
+      }
+    }
+    return undefined;
   }
 
   // Render method
