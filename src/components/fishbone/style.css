@@ -342,3 +342,17 @@
 .thinBorder {
     border-bottom: 5px solid;
 }
+
+.hexa {
+    min-width: 260px;
+    padding: 8px;
+    font-weight: bold;
+    justify-content: center !important;/* force center alignment*/
+    /*background: linear-gradient(to right, #09203F, #537895);*/
+    background: linear-gradient(to right, #68738b, #537895);
+    clip-path: polygon(15px 0px, calc(100% - 15px) 0px, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0px 50%);
+    -webkit-clip-path: polygon(15px 0px, calc(100% - 15px) 0px, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0px 50%);
+    -moz-clip-path: polygon(15px 0px, calc(100% - 15px) 0px, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0px 50%);
+    color: #ffffff;
+    border: 0px !important;/* force remove border bottom*/
+}

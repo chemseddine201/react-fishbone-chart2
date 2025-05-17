@@ -5,7 +5,6 @@ import './assets/style.css'
 
 //supported colors 'blue', 'pink', 'gray', 'green', 'blue_two', 'orange', 'black', 'purple'
 // Interface definitions
-
 //type ColorName = 'blue' | 'pink' | 'gray' | 'green' | 'blue_two' | 'orange' | 'black' | 'purple'
 type CauseAlignment  = 'start' | 'center';
 interface ColorMap {
@@ -49,6 +48,7 @@ interface FishboneChartProps {
   animationDuration?: number  // Control animation speed
   onInitStart?: () => void  // Lifecycle hook before initiation of fishbone
   onInitEnd?: () => void    // Lifecycle hook after fishbone initiate
+  hexaTitle?: boolean //show titles as hexagon this force alignment center
 }
 
 interface FishboneChartState {
@@ -65,6 +65,7 @@ interface FishboneChartState {
   isInitialized: boolean  // Track initialization state
   error: Error | null     // Track errors
   customColors: ColorMap  // Store custom colors
+  hexaTitle: boolean //this force alignement to center and change backgrounds into hexagon
 }
 
 class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
@@ -82,7 +83,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     causeBackground: false,
     debug: false,
     disableResize: false,
-    animationDuration: 300
+    animationDuration: 300,
+    hexaTitle: false
   }
 
   // Initial state
@@ -99,7 +101,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
     causeBackground: false,
     isInitialized: false,
     error: null,
-    customColors: {}
+    customColors: {},
+    hexaTitle: false
   }
 
   // Component references
@@ -121,14 +124,18 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         prevProps.mainProblemBackground !== this.props.mainProblemBackground ||
         prevProps.causeCategoryBackground !== this.props.causeCategoryBackground ||
         prevProps.causeBackground !== this.props.causeBackground ||
-        prevProps.customColors !== this.props.customColors) {
+        prevProps.customColors !== this.props.customColors ||
+        prevProps.hexaTitle !== this.props.hexaTitle
+      
+      ) {
       this.setState({
         color: this.props.color,
         alignment: this.props.alignment,
         mainProblemBackground: this.props.mainProblemBackground,
         causeCategoryBackground: this.props.causeCategoryBackground,
         causeBackground: this.props.causeBackground,
-        customColors: this.props.customColors || {}
+        customColors: this.props.customColors || {},
+        hexaTitle: this.props.hexaTitle || false,
       }, () => {
         this.initFishbone();
       });
@@ -157,7 +164,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         mainProblemBackground = false,
         causeCategoryBackground = false,
         causeBackground = false,
-        customColors = {}
+        customColors = {},
+        hexaTitle = false
       } = this.props
         
       this.setState(prevState => ({
@@ -171,7 +179,8 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
         mainProblemBackground,
         causeCategoryBackground,
         causeBackground,
-        customColors
+        customColors,
+        hexaTitle,
       }), () => {
         this.initFishbone();
       })
@@ -375,12 +384,12 @@ class FishboneChart extends Component<FishboneChartProps, FishboneChartState> {
               className='causeContent'
               onClick={() => this.handleCauseClick(cause)}
             >
-              {isTop && <div className={`cause top cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
+              {isTop && <div className={`cause top cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border ${this.state.hexaTitle ? 'hexa' : ''}`} >{cause.name}</div>}
               <div className={`causeAndLine ${isTop ? 'top-items' : 'bottom-items'}`}>
                 {this.renderSubCauses(cause.children || [])}
                 <div className={`diagonalLine ${this.state.color}${isTop ? 'TopBottom' : 'BottomTop'}`} />
               </div>
-              {!isTop && <div className={`cause bottom cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border`}>{cause.name}</div>}
+              {!isTop && <div className={`cause bottom cause-title cause-${this.state.alignment} ${this.state.causeCategoryBackground ? this.state.color+'_' : ''} ${this.state.color}Border ${this.state.hexaTitle ? 'hexa' : ''}`}>{cause.name}</div>}
             </div>
           )
         })
