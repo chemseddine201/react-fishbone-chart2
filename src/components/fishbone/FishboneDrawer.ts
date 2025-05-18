@@ -250,7 +250,7 @@ export class FishboneDrawer {
           const newTop = parseFloat(movableElement.style.top || '0') + (targetBottomLeft.y - movableTopCenter.y)
 
           // Apply the new position relative to the container
-          movableElement.style.left = 'relative'
+          movableElement.style.position = 'relative'
           movableElement.style.left = newLeft + 'px'
           movableElement.style.top = newTop + 'px'
         }

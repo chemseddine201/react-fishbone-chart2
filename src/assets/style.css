@@ -34,12 +34,10 @@
 
 .top {
     border-bottom: 2px solid;
-    border-radius: 5% 5% 0 0;
 }
 
 .bottom {
     border-top: 2px solid;
-    border-radius: 0 0 5% 5%;
 }
 
 .left {
@@ -68,7 +66,14 @@
     display: flex;
     font-size: 0.95em;
     font-weight: 400;
-    padding: 5px;
+    padding: 5px
+}
+
+.cause-light {
+    color: #ffffff;
+}
+
+.cause-dark {
     color: #4f4f4f;
 }
 
@@ -416,31 +421,25 @@
 .hexa {
     min-width: 260px;
     padding: 8px;
-    font-weight: bold;
     justify-content: center !important;/* force center alignment*/
-    clip-path: polygon(15px 0px, calc(100% - 15px) 0px, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0px 50%);
-    -webkit-clip-path: polygon(15px 0px, calc(100% - 15px) 0px, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0px 50%);
-    -moz-clip-path: polygon(15px 0px, calc(100% - 15px) 0px, 100% 50%, calc(100% - 15px) 100%, 15px 100%, 0px 50%);
-    color: #ffffff;
-    border: 0px !important;/* force remove border bottom*/
+    text-align: center !important;/* force center alignment*/
+    clip-path: polygon(10px 0px, calc(100% - 10px) 0px, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0px 50%);
+    -webkit-clip-path: polygon(10px 0px, calc(100% - 10px) 0px, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0px 50%);
+    -moz-clip-path: polygon(10px 0px, calc(100% - 10px) 0px, 100% 50%, calc(100% - 10px) 100%, 10px 100%, 0px 50%);
 }
 
 .rect {
     min-width: 260px;
     padding: 8px;
-    font-weight: bold;
     justify-content: center !important;/* force center alignment*/
-    color: #ffffff;
-    border: 0px !important;/* force remove border bottom*/
+    text-align: center !important;/* force center alignment*/
 }
 
 .rounded {
     min-width: 260px;
     padding: 8px;
-    font-weight: bold;
     justify-content: center !important;/* force center alignment*/
-    color: #ffffff;
-    border: 0px !important;/* force remove border bottom*/
+    text-align: center !important;/* force center alignment*/
     border-radius: 10px !important;
 }
 
